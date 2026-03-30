@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
+const API = "https://resume-analyzer-backend-1-3uka.onrender.com";
+
 function App() {
   const [file, setFile] = useState(null);
   const [resumeId, setResumeId] = useState(null);
@@ -66,7 +68,7 @@ function App() {
       formData.append("file", file);
 
       const response = await axios.post(
-        "http://localhost:8080/api/resumes/upload",
+        `${API}/api/resumes/upload`,
         formData,
         {
           headers: {
@@ -101,7 +103,7 @@ function App() {
       setMessage("Analyzing resume...");
 
       const response = await axios.post(
-        "http://localhost:8080/api/analysis",
+        `${API}/api/analysis`,
         {
           resumeId,
           jobDescription,
@@ -157,7 +159,6 @@ function App() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            
             <p>Drag &amp; drop your resume here or</p>
 
             <input
@@ -210,7 +211,7 @@ function App() {
 
           <div className="results-grid">
             <div className="result-card">
-              <h3> Match Score</h3>
+              <h3>Match Score</h3>
               <div className="score-value">
                 {result ? `${result.matchScore.toFixed(0)}%` : "0%"}
               </div>
@@ -250,7 +251,9 @@ function App() {
               {result ? (
                 <p className="suggestion-text">{result.suggestions}</p>
               ) : (
-                <p className="placeholder-text">Suggestions will appear here after analysis.</p>
+                <p className="placeholder-text">
+                  Suggestions will appear here after analysis.
+                </p>
               )}
             </div>
           </div>
